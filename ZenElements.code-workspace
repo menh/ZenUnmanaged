@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "Elements\\UnmanagedElements\\ZenDebugWrapper"
+		},
+		{
+			"path": "Elements\\UnmanagedElements\\ZenElementsExecuterWrapper"
 		}
 	]
 }
