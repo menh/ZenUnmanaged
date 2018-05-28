@@ -6,10 +6,19 @@
             "command": "${workspaceRoot}/build/build_win64.bat",
             "type": "shell",
             "problemMatcher": [],
+            "dependsOn": [
+                "create-bin-dir"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "command": "\"mkdir -Force bin\\Debug\"",
+            "label": "create-bin-dir",
+            "type": "shell",
+            "problemMatcher": []
         }
     ]
 }
