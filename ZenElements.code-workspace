@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "Elements\\UnmanagedElements\\ZenCsScriptWrapper"
+		},
+		{
+			"path": "Elements\\UnmanagedElements\\ZenCounter"
 		}
 	]
 }
