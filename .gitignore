@@ -4,3 +4,5 @@ ZenCommon/
 ZenEngine/
 ZenComputingEngine.code-workspace
 Elements/UnmanagedElements/ZenCounter/bin
+Elements/UnmanagedElements/ZenDebugWrapper/bin
+
