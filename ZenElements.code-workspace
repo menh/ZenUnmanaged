@@ -14,6 +14,9 @@
 		},
 		{
 			"path": "Elements\\UnmanagedElements\\ZenSleep"
+		},
+		{
+			"path": "Elements\\UnmanagedElements\\ZenStart"
 		}
 	]
 }
