@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "Elements\\UnmanagedElements\\ZenElementsExecuterWrapper"
+		},
+		{
+			"path": "Elements\\UnmanagedElements\\ZenSleep"
 		}
 	]
 }

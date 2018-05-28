@@ -6,3 +6,4 @@ ZenComputingEngine.code-workspace
 Elements/UnmanagedElements/ZenCounter/bin
 Elements/UnmanagedElements/ZenDebugWrapper/bin
 Elements/UnmanagedElements/ZenElementsExecuterWrapper/bin
+Elements/UnmanagedElements/ZenSleep/bin
