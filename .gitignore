@@ -1,2 +1,5 @@
 Elements/Libs/ZenCoreCLR/bin
 Elements/UnmanagedElements/ZenCsScriptWrapper/bin
+ZenCommon/
+ZenEngine/
+ZenComputingEngine.code-workspace
