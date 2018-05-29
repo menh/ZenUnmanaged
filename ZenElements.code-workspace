@@ -1,22 +1,22 @@
 {
 	"folders": [
 		{
-			"path": "Elements\\UnmanagedElements\\ZenCsScriptWrapper"
+			"path": "Elements\\ZenCounter"
 		},
 		{
-			"path": "Elements\\UnmanagedElements\\ZenCounter"
+			"path": "Elements\\ZenCsScriptWrapper"
 		},
 		{
-			"path": "Elements\\UnmanagedElements\\ZenDebugWrapper"
+			"path": "Elements\\ZenDebugWrapper"
 		},
 		{
-			"path": "Elements\\UnmanagedElements\\ZenElementsExecuterWrapper"
+			"path": "Elements\\ZenElementsExecuterWrapper"
 		},
 		{
-			"path": "Elements\\UnmanagedElements\\ZenSleep"
+			"path": "Elements\\ZenSleep"
 		},
 		{
-			"path": "Elements\\UnmanagedElements\\ZenStart"
+			"path": "Elements\\ZenStart"
 		}
 	]
 }

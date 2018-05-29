@@ -1,10 +1,10 @@
-Elements/Libs/ZenCoreCLR/bin
-Elements/UnmanagedElements/ZenCsScriptWrapper/bin
+Libs/ZenCoreCLR/bin
+Elements/ZenCsScriptWrapper/bin
 ZenCommon/
 ZenEngine/
 ZenComputingEngine.code-workspace
-Elements/UnmanagedElements/ZenCounter/bin
-Elements/UnmanagedElements/ZenDebugWrapper/bin
-Elements/UnmanagedElements/ZenElementsExecuterWrapper/bin
-Elements/UnmanagedElements/ZenSleep/bin
-Elements/UnmanagedElements/ZenStart/bin
+Elements/ZenCounter/bin
+Elements/ZenDebugWrapper/bin
+Elements/ZenElementsExecuterWrapper/bin
+Elements/ZenSleep/bin
+Elements/ZenStart/bin
