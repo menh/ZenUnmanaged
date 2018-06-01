@@ -3,7 +3,7 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
 set elementName=ZenCsScriptWrapper
 set elementExports=ZENCSSCRIPTWRAPPER_EXPORTS
 
-set includedirs=/I""%ZENO_ROOT%"\ZenCommon" /I""%ZENO_ROOT%"\libs\ZenCoreCLR" /I""%ZENO_ROOT%"\libs\pthread\src" /I""%ZENO_ROOT%"\libs\zip\src"
+set includedirs=/I""%ZENO_PATH%"\ZenCommon" /I""%ZENO_ROOT%"\libs\ZenCoreCLR" /I""%ZENO_ROOT%"\libs\pthread\src" /I""%ZENO_ROOT%"\libs\zip\src"
 set libdirs=/LIBPATH:""%ZENO_ROOT%"\libs\ZenCommon\lib_msvc\1.0.0.0" /LIBPATH:""%ZENO_ROOT%"\libs\ZenCoreCLR\lib\1.0.0.0" /LIBPATH:""%ZENO_ROOT%"\libs\pthread\lib\1.0.0.0"
 set srcfiles=%elementName%.c "%ZENO_ROOT%"\libs\zip\src\zip.c
 
