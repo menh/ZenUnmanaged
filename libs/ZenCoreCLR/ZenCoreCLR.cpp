@@ -27,8 +27,8 @@
 
 #if defined (_WIN32)
 #include <stdio.h>
-#include "mscoree.h"
 #include "ZenCommon.h"
+#include "mscoree.h"
 #include "ZenCoreCLR.h"
 #else
 #include <iostream>
@@ -55,6 +55,7 @@ int _areNodeDatasInitialized = 0;
 struct nodeData
 {
 	char  id[50];
+	void *ptr;
 };
 struct  nodeData nodeDatas[1000];
 
@@ -94,11 +95,11 @@ void *coreclr;
 
 // Callbacks:
 //	* node related : get node property, result, result info
-typedef char*	(*GetElementPropertyCallback)(char*, char*);
-typedef void(*SetElementPropertyCallback)(char*, char*, char*);
-typedef int(*GetElementResultInfoCallback)(char*);
-typedef void**	(*GetElementResultCallback)(char*);
-typedef void(*ExecuteElementCallback)(char*);
+typedef char*(*GetElementPropertyCallback)(void*, char*);
+typedef void(*SetElementPropertyCallback)(void*, char*, char*);
+typedef int(*GetElementResultInfoCallback)(void*);
+typedef void**	(*GetElementResultCallback)(void*);
+typedef void(*ExecuteElementCallback)(void*);
 
 // Node workflow functions
 typedef void  (InitManagedElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp);
@@ -112,59 +113,59 @@ typedef char* (GetDynamicElementsMethodFp)(char* currentNodeId, nodeData nodes[]
 /**
 * Handes set node property request from managed code
 *
-* @param nodeId		unique identifier of node to set property value
+* @param node		node to set property value
 * @param key		property key
 * @param value		property value
 * @return           void
 */
-void managed_callback_set_node_property(char* nodeId, char* key, char* value)
+void managed_callback_set_node_property(void* node, char* key, char* value)
 {
-	common_set_node_arg(common_get_node_by_id(nodeId), key, value);
+	common_set_node_arg((Node*)node, key, value);
 }
 
 /**
 * Returns node property value back to managed code
 *
-* @param nodeId		unique identifier of node to retrieve property value
+* @param node		node to retrieve property value
 * @param key		property key
 * @return           node result info
 */
-char* managed_callback_get_node_property(char* nodeId, char* key)
+char* managed_callback_get_node_property(void* node, char* key)
 {
-	return common_get_node_arg(common_get_node_by_id(nodeId), key);
+	return common_get_node_arg((Node*)node, key);
 }
 
 /**
 * Returns node result info back to managed code
 *
-* @param nodeId		unique identifier of node to retrieve result
+* @param node		node to retrieve result
 * @return           node result info
 */
-int managed_callback_get_node_result_info(char* nodeId)
+int managed_callback_get_node_result_info(void* node)
 {
-	return common_get_node_result_type(nodeId);
+	return ((Node*)node)->lastResultType;
 }
 
 /**
 * Returns node result back to managed code
 *
-* @param nodeId		unique identifier of node to retrieve result
+* @param node		node to retrieve result
 * @return           node result
 */
-void** managed_callback_get_node_result(char* nodeId)
+void** managed_callback_get_node_result(void* node)
 {
-	return common_get_node_result(nodeId);
+	return ((Node*)node)->lastResult;
 }
 
 /**
 * Handle node execution request from managed code
 *
-* @param nodeId		node that is going to be executed
+* @param node		node that is going to be executed
 * @return           void
 */
-void managed_callback_execute_node(char* nodeId)
+void managed_callback_execute_node(void* node)
 {
-	common_exec_node(nodeId);
+	common_exec_node((Node*)node);
 }
 //************************ End callback implementations ************************/
 
@@ -709,7 +710,10 @@ void InitNodeDatas()
 	if (!_areNodeDatasInitialized)
 	{
 		for (int i = 0; i < COMMON_NODE_LIST_LENGTH; i++)
+		{
 			strcpy(nodeDatas[i].id, COMMON_NODE_LIST[i]->id);
+			nodeDatas[i].ptr = COMMON_NODE_LIST[i];
+		}
 
 		_areNodeDatasInitialized = 1;
 	}
