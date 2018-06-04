@@ -1,27 +1,19 @@
 /*========================================================================================
 |
-|       Author:  Tomaz Vinko
+|       .NET core binding for Native Zeno Engine
+|
+|         * Each managed Element needs native wrapper that act like bridge 
+|           to native Zeno Engine. It translates requests from managed Elements to 
+|		    Engine and requests from Engine to managed Elements:
+|         		* Requests from managed Elements are : getting values of Element properies,
+|           	  Element results and Element result infos
+|         		* Requests from native Zeno Engine are : execute action, init managed Elements,
+|           	  get dynamic Elements....
 |
 +-----------------------------------------------------------------------------------------
 |
-|  Description:
-|         * Hosting Core Clr
-|
-|         * Each managed node needs native wrapper (surrogate) that act like bridge 
-|           between him and native zen engine. This bridge translates requests 
-|           from managed nodes to native zen engine, and requests from native zen
-|           engine to managed nodes:
-|
-|         * Requests from managed nodes are : getting values of node properies,
-|           node results and node result infos
-|         * Requests from native zen engine are : execute action, init managed nodes,
-|           get dynamic nodes....
-|
-|   Known Bugs:
-|					* None
-|	     To Do:
-|					* None
-|					* None
+|   Known Bugs:  * None
+|	     To Do:  * None
 |
 *=========================================================================================*/
 
