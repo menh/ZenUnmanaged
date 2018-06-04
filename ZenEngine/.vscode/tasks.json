@@ -1,0 +1,60 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug-win64",
+            "command": "${workspaceRoot}/build/build_win64.bat",
+            "type": "shell",
+            "problemMatcher": [],
+            "dependsOn": [
+                "copy-libs-win-x64"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-debug-ubuntu",
+            "command": "gcc",
+            "type": "shell",
+            "args": [
+                "-g", "-fPIC",
+                "-I.",
+                "-I${env:ZENO_ROOT}\\libs\\ini\\1.0.0.0\\src",
+                "-I${env:ZENO_ROOT}\\libs\\zip\\1.0.0.0\\src",
+                "-I${env:ZENO_ROOT}\\libs\\os_call\\1.0.0.0\\src",
+                "-I${env:ZENO_ROOT}\\libs\\cJSON\\1.0.0.0\\src",
+                "-I${env:ZENO_ROOT}\\ZenCommon",
+                "ZenEngine.c",
+                "${env:ZENO_ROOT}\\libs\\ini\\1.0.0.0\\src\\ini.c",
+                "-L.",
+                "-L${env:ZENO_ROOT}\\libs\\ZenCommon\\1.0.0.0\\lib",
+                "-o", "bin\\Debug\\ZenEngine.exe",
+                "-lZenCommon"
+            ]
+            ,
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "command": "\"mkdir -Force bin/Debug;cp ${env:ZENO_ROOT}/libs/pthread//lib/1.0.0.0/pthreadGC2.dll bin/Debug;cp ${env:ZENO_ROOT}/libs/paho.mqtt/lib/1.0.0.0/paho-mqtt3as.dll bin/Debug;cp ${env:ZENO_ROOT}/libs/ZenCommon/lib_msvc/1.0.0.0/ZenCommon.dll bin/Debug\"",
+            "label": "copy-libs-win-x64",
+            "type": "shell",
+           
+            "problemMatcher": []
+        }
+    ]
+}
+  

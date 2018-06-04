@@ -1,0 +1,26 @@
+TARGET		= ZenEngine
+LIBS		= -lZenCommon -ldl -lpthread -lpaho-mqtt3as
+_DEPS		= ZenCommon.h
+IDIR		= . ../ZenCommon
+LDIR		= . ../ZenCommon
+OPT			= -O2
+CFLAGS		= -fPIC -c $(foreach d, $(IDIR), -I$d)
+LFLAGS		= $(foreach d, $(LDIR), -L$d)
+CC			= gcc
+ODIR		= .
+SRC			= $(wildcard *.c) ../ZenCommon/cJSON.c
+SRC_OBJ 	= cJSON.o ini.o
+_OBJ		= $(TARGET).o
+DEPS		= $(patsubst %,$(IDIR)/%,$(_DEPS))
+OBJ			= $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC)  $(CFLAGS) $(SRC) $(LIBS)
+
+$(TARGET): $(OBJ)
+	$(CC) $(OPT) -o $@ $^ $(LFLAGS) $(LIBS) $(SRC_OBJ) 
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~ 

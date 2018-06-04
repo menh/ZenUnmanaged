@@ -6,3 +6,8 @@ Elements/ZenDebugWrapper/bin
 Elements/ZenElementsExecuterWrapper/bin
 Elements/ZenSleep/bin
 Elements/ZenStart/bin
+ZenCommon/bin
+ZenEngine/bin
+ZenEngine/project
+ZenEngine/tmp
+ZenCommon/Compile.txt

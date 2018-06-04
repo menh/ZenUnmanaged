@@ -1,0 +1,73 @@
+//"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\lib.exe"/machine:X64 /def:bin\Debug\ZenCommon.def
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug-win64",
+            "command": "${workspaceRoot}/build/build_win64.bat",
+            "type": "shell",
+            "problemMatcher": [],
+            "dependsOn": [
+                "create-bin"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "command": "\"mkdir -Force bin\\Debug;\"",
+            "label": "create-bin",
+            "type": "shell",
+            "problemMatcher": []
+        },
+        {
+            "command": "\"cp bin/Debug/ZenCommon.dll ${env:ZENO_ROOT}/libs/ZenCommon/lib_msvc/1.0.0.0;cp bin/Debug/ZenCommon.lib ${env:ZENO_ROOT}/libs/ZenCommon/lib_msvc/1.0.0.0\"",
+            "label": "copy-libs-win-x64",
+            "type": "shell",
+           
+            "problemMatcher": []
+        },
+        {
+            
+            "label": "build-debug-ubuntu",
+            "command": "\"mkdir -Force bin\\Debug; gcc\"",
+            "type": "shell",
+            "args": [
+                "-shared", "-g",
+                "-I${env:ZENO_ROOT}\\libs\\paho.mqtt\\1.0.0.0\\src",
+                "-I${env:ZENO_ROOT}",
+                "-I${env:ZENO_ROOT}\\libs\\zip\\1.0.0.0\\src",
+                "-I${env:ZENO_ROOT}\\libs\\cJSON\\1.0.0.0\\src",
+                "-I${env:ZENO_ROOT}\\libs\\b64\\1.0.0.0\\src",
+                "-I.",
+                "ZenCommon.c",
+                "${env:ZENO_ROOT}\\libs\\cJSON\\1.0.0.0\\src\\cJSON.c",
+                "${env:ZENO_ROOT}\\libs\\b64\\1.0.0.0\\src\\decode.c",
+                "${env:ZENO_ROOT}\\libs\\b64\\1.0.0.0\\src\\encode.c",
+                "ZenMqtt.c",
+                "${env:ZENO_ROOT}\\libs\\zip\\1.0.0.0\\src\\zip.c",
+                "-L.",
+                "-L${env:ZENO_ROOT}\\libs\\paho.mqtt\\1.0.0.0\\lib",
+                "-o", "bin\\Debug\\ZenCommon.dll",
+                "-lpaho-mqtt3as",
+                "'-Wl','--output-def','bin\\Debug\\ZenCommon.def','--out-implib','bin\\Debug\\libZenCommon.a'"
+            ]
+            ,
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
+  
