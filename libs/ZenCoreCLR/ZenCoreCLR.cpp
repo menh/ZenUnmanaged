@@ -192,9 +192,7 @@ void AddTrustedAssemblies()
 	{
 		// Construct the file name search pattern
 		char searchPath[MAX_PATH];
-		strcpy(searchPath, COMMON_ENGINE_CONFIGURATION.netCorePath);
-		strcat(searchPath, "\\");
-		strcat(searchPath, tpaExtensions[i]);
+		snprintf(searchPath, sizeof(searchPath), "%s%s%s", COMMON_ENGINE_CONFIGURATION.netCorePath, "\\", tpaExtensions[i]);
 
 		wchar_t wtext[1000];
 		mbstowcs(wtext, searchPath, strlen(searchPath) + 1);
@@ -245,8 +243,8 @@ void StartClrRuntime()
 {
 	wchar_t wtext[1000];
 	char coreCLRFile[MAX_PATH];
-	strcpy(coreCLRFile, COMMON_ENGINE_CONFIGURATION.netCorePath);
-	strcat(coreCLRFile, "\\coreclr.dll");
+	snprintf(coreCLRFile, sizeof(coreCLRFile), "%s%s", COMMON_ENGINE_CONFIGURATION.netCorePath, "\\coreclr.dll");
+
 	mbstowcs(wtext, coreCLRFile, strlen(coreCLRFile) + 1);
 	_coreCLRModule = LoadLibraryExW(wtext, NULL, 0);
 
@@ -300,8 +298,7 @@ void StartClrRuntime()
 void SetProbePaths()
 {
 	char app_path[256];
-	strcpy(app_path, COMMON_PROJECT_ROOT);
-	strcat(app_path, "/Implementations");
+	snprintf(app_path, sizeof(app_path), "%s%s", COMMON_PROJECT_ROOT, "/Implementations");
 
 	wchar_t targetAppPathWide[MAX_PATH];
 	mbstowcs(targetAppPathWide, app_path, strlen(app_path) + 1);
@@ -417,13 +414,10 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDyn
 	_assembliesCnt++;
 
 	char assemblyName[MAX_PATH];
-	strcpy(assemblyName, fileName);
-	strcat(assemblyName, ", Version=1.0.0.0, Culture=neutral");
-
+	snprintf(assemblyName, sizeof(assemblyName), "%s%s", fileName,", Version=1.0.0.0, Culture=neutral");
+	
 	char className[MAX_PATH];
-	strcpy(className, fileName);
-	strcat(className, ".");
-	strcat(className, fileName);
+	snprintf(className, sizeof(className), "%s%s%s", fileName,".", fileName);
 
 #if defined (_MSC_VER)
 	HRESULT hr;
@@ -513,8 +507,7 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDyn
 		}
 	}
 #endif
-
-	strcpy(assemblyDatas[_assembliesCnt].id, fileName);
+	strncpy(assemblyDatas[_assembliesCnt].id, fileName, strlen(fileName) + 1);
 	return _assembliesCnt;
 }
 //************************** End loading CoreClr ******************************/
@@ -649,8 +642,7 @@ unsigned int InitializeCoreCLR()
 	}
 
 	char app_path[PATH_MAX];
-	strcpy(app_path, COMMON_PROJECT_ROOT);
-	strcat(app_path, "/Implementations");
+	snprintf(app_path, sizeof(app_path), "%s%s", COMMON_PROJECT_ROOT, "/Implementations");
 
 	coreclr_init = reinterpret_cast<coreclr_initialize_ptr>(dlsym(coreclr, "coreclr_initialize"));
 	if (coreclr_init == NULL)
@@ -711,7 +703,7 @@ void InitNodeDatas()
 	{
 		for (int i = 0; i < COMMON_NODE_LIST_LENGTH; i++)
 		{
-			strcpy(nodeDatas[i].id, COMMON_NODE_LIST[i]->id);
+			strncpy(nodeDatas[i].id, COMMON_NODE_LIST[i]->id, strlen(COMMON_NODE_LIST[i]->id) + 1);
 			nodeDatas[i].ptr = COMMON_NODE_LIST[i];
 		}
 
