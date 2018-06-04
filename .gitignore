@@ -1,7 +1,5 @@
 Libs/ZenCoreCLR/bin
 Elements/ZenCsScriptWrapper/bin
-ZenCommon/
-ZenEngine/
 ZenComputingEngine.code-workspace
 Elements/ZenCounter/bin
 Elements/ZenDebugWrapper/bin
