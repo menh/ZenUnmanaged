@@ -1,6 +1,6 @@
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
 
-set includedirs=/I""%ZENO_PATH%"\ZenCommon" /I""%ZENO_ROOT%"\libs\pthread\src" /I""%ZENO_ROOT%"\libs\zip\src"
+set includedirs=/I""%ZENO_PATH%"\ZenCommon" /I""%ZENO_ROOT%"\libs\os_call\src" /I""%ZENO_ROOT%"\libs\pthread\src" /I""%ZENO_ROOT%"\libs\zip\src"
 set libdirs=/LIBPATH:""%ZENO_ROOT%"\libs\ZenCommon\lib_msvc\1.0.0.0" /LIBPATH:""%ZENO_ROOT%"\libs\pthread\lib\1.0.0.0"
 set srcfiles=ZenCoreCLR.cpp "%ZENO_ROOT%"\libs\zip\src\zip.c
 set libs="ZenCommon.lib" "libpthreadGC2.a"

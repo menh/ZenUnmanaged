@@ -43,6 +43,7 @@
 #include "ZenCommon.h"
 #include "mscoree.h"
 #include "ZenCoreCLR.h"
+#include "os_call.h"
 #else
 #include <iostream>
 #include <limits.h>
@@ -84,12 +85,12 @@ struct assemblyData
 struct  assemblyData assemblyDatas[1000];
 int _assembliesCnt = -1;
 
-#if defined (_MSC_VER)
+#if defined (_WIN32)
 HMODULE _coreCLRModule;
 #endif
 
 //Probe locations
-#if defined (_MSC_VER)
+#if defined (_WIN32)
 int tpaSize = 100 * MAX_PATH;
 wchar_t appPaths[MAX_PATH * 50];
 wchar_t appNiPaths[MAX_PATH * 50];
@@ -98,7 +99,7 @@ wchar_t platformResourceRoots[MAX_PATH * 50];
 wchar_t* trustedPlatformAssemblies = new wchar_t[tpaSize];
 #endif
 
-#if defined (_MSC_VER)
+#if defined (_WIN32)
 ICLRRuntimeHost2* _runtimeHost;
 #else
 #define __stdcall __attribute__((stdcall))
@@ -108,14 +109,18 @@ void *coreclr;
 
 // Callbacks:
 //	* node related : get node property, result, result info
+typedef void(*AddEventToBufferCallback)(void*, char*);
 typedef char*(*GetElementPropertyCallback)(void*, char*);
 typedef void(*SetElementPropertyCallback)(void*, char*, char*);
 typedef int(*GetElementResultInfoCallback)(void*);
-typedef void**	(*GetElementResultCallback)(void*);
+typedef void**(*GetElementResultCallback)(void*);
 typedef void(*ExecuteElementCallback)(void*);
 
+// Pointer to event handler in node implementation
+typedef int(*ptrOnNodeEvent)(Node*, char*);
+
 // Node workflow functions
-typedef void  (InitManagedElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp);
+typedef void  (InitManagedElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp, AddEventToBufferCallback addEventToBufferFp);
 typedef void (OnElementInitMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char* result);
 typedef void (ExecuteActionMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char* result);
 typedef char* (GetDynamicElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp);
@@ -124,7 +129,21 @@ typedef char* (GetDynamicElementsMethodFp)(char* currentNodeId, nodeData nodes[]
 //************************* Calls from managed code **************************/
 
 /**
-* Handes set node property request from managed code
+* Handles event from managed side
+*
+* @param node		node which fire event
+* @param data		event data
+* @return           void
+*/
+void managed_callback_add_event_to_buffer(void* node, char* data)
+{
+	ptrOnNodeEvent onNodeEventFunct = (ptrOnNodeEvent)GetFunction(((Node*)node)->implementation, "onNodeEvent");
+	if (onNodeEventFunct)
+		onNodeEventFunct((Node*)node,data);
+}
+
+/**
+* Handles set node property request from managed code
 *
 * @param node		node to set property value
 * @param key		property key
@@ -182,7 +201,7 @@ void managed_callback_execute_node(void* node)
 }
 //************************ End callback implementations ************************/
 
-#if defined (_MSC_VER)
+#if defined (_WIN32)
 //************************ Start loading CoreClr ******************************/
 
 /**
@@ -432,7 +451,7 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDyn
 	char className[MAX_PATH];
 	snprintf(className, sizeof(className), "%s%s%s", fileName,".", fileName);
 
-#if defined (_MSC_VER)
+#if defined (_WIN32)
 	HRESULT hr;
 
 	wchar_t assemblyNameWide[MAX_PATH];
@@ -529,7 +548,7 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDyn
 EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node)
 {
 	InitNodeDatas();
-	((InitManagedElementsMethodFp*)assemblyDatas[pos].InitManagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property);
+	((InitManagedElementsMethodFp*)assemblyDatas[pos].InitManagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
 }
 
 EXTERN_DLL_EXPORT void coreclr_on_node_init(int pos, Node* node, char *result)
@@ -729,7 +748,7 @@ EXTERN_DLL_EXPORT int  coreclr_init_app_domain()
 	if (_domainId > 0)
 		return 0;
 
-#if defined (_MSC_VER)
+#if defined (_WIN32)
 	StartClrRuntime();
 	AddTrustedAssemblies();
 	SetProbePaths();

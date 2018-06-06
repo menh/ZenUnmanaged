@@ -246,14 +246,17 @@ EXTERN_DLL_EXPORT void common_pull_event_from_buffer(Node* node)
 	node->hasGreenLight = 1;
 	if (node->bufferedEvents.count > 0)
 	{
-		switch (node->lastResultType) {
-
-		case RESULT_TYPE_INT:
-			node->lastResult = (int*)popqueue(&node->bufferedEvents);
-			pthread_cond_signal(&_pause_node_conditions[node->pauseNodeConditionId]);
-
-			break;
+		switch (node->lastResultType) 
+		{
+			case RESULT_TYPE_INT:
+				node->lastResult = (int*)popqueue(&node->bufferedEvents);
+				break;
+			
+			case RESULT_TYPE_CHAR_ARRAY:
+				node->lastResult = (char*)popqueue(&node->bufferedEvents);
+				break;
 		}
+		pthread_cond_signal(&_pause_node_conditions[node->pauseNodeConditionId]);
 		//printf("%d events after pull\n", node->bufferedEventsCount);
 	}
 	pthread_mutex_unlock(&_event_queue_locks[node->eventQueueLockId]);
@@ -279,17 +282,33 @@ EXTERN_DLL_EXPORT void common_push_event_to_buffer(void *context)
 		return;
 	}
 
-	switch (eventParams->node->lastResultType) {
-
-	case RESULT_TYPE_INT:
-		if (eventParams->node->bufferedEvents.count == 0 && eventParams->node->hasGreenLight)
+	if (eventParams->node->bufferedEvents.count == 0 && eventParams->node->hasGreenLight)
+	{
+		eventParams->node->hasGreenLight = 0;
+		switch (eventParams->node->lastResultType) 
 		{
-			eventParams->node->hasGreenLight = 0;
-			eventParams->node->lastResult = *(int*)eventParams->data;
-			pthread_cond_signal(&_pause_node_conditions[eventParams->node->pauseNodeConditionId]);
+			case RESULT_TYPE_INT:
+				eventParams->node->lastResult = *(int*)eventParams->data;
+				break;
+			
+			case RESULT_TYPE_CHAR_ARRAY:
+				eventParams->node->lastResult = *(char*)eventParams->data;
+				break;
 		}
-		else
-			push(&eventParams->node->bufferedEvents, *(int*)eventParams->data);
+		pthread_cond_signal(&_pause_node_conditions[eventParams->node->pauseNodeConditionId]);
+	}
+	else
+	{
+		switch (eventParams->node->lastResultType) 
+		{
+			case RESULT_TYPE_INT:
+				push(&eventParams->node->bufferedEvents, *(int*)eventParams->data);
+				break;
+
+			case RESULT_TYPE_CHAR_ARRAY:
+				push(&eventParams->node->bufferedEvents, *(char*)eventParams->data);
+				break;
+		}
 	}
 	//printf("There are %d events after push...\n", eventParams->node->bufferedEventsCount);
 	pthread_mutex_unlock(&_event_queue_locks[eventParams->node->eventQueueLockId]);
