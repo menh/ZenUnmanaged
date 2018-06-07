@@ -3,5 +3,11 @@
 		{
 			"path": "libs\\ZenCoreCLR"
 		}
-	]
+	],
+	"settings": {
+		"files.associations": {
+			"system_error": "cpp",
+			"xlocale": "cpp"
+		}
+	}
 }

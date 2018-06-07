@@ -38,9 +38,9 @@
 |
 *============================================================================*/
 
+#include "ZenCommon.h"
 #if defined (_WIN32)
 #include <stdio.h>
-#include "ZenCommon.h"
 #include "mscoree.h"
 #include "ZenCoreCLR.h"
 #include "os_call.h"
@@ -54,7 +54,6 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include "coreclrhost.h"
-#include "ZenCommon.h"
 #include "ZenCoreCLR.h"
 
 using namespace std;
@@ -120,10 +119,10 @@ typedef void(*ExecuteElementCallback)(void*);
 typedef int(*ptrOnNodeEvent)(Node*, char*);
 
 // Node workflow functions
-typedef void  (InitManagedElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp, AddEventToBufferCallback addEventToBufferFp);
+typedef void  (InitManagedElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, int isManaged, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp, AddEventToBufferCallback addEventToBufferFp);
 typedef void (OnElementInitMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char* result);
 typedef void (ExecuteActionMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char* result);
-typedef char* (GetDynamicElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp);
+typedef char* (GetDynamicElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, int isManaged, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp, AddEventToBufferCallback addEventToBufferFp);
 
 //********************** Start callback implementations ************************/
 //************************* Calls from managed code **************************/
@@ -545,10 +544,10 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDyn
 //************************** End loading CoreClr ******************************/
 
 //*************** Start exported wrappers to  element workflow functions **************/
-EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node)
+EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node, int isManaged)
 {
 	InitNodeDatas();
-	((InitManagedElementsMethodFp*)assemblyDatas[pos].InitManagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
+	((InitManagedElementsMethodFp*)assemblyDatas[pos].InitManagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, isManaged, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
 }
 
 EXTERN_DLL_EXPORT void coreclr_on_node_init(int pos, Node* node, char *result)
@@ -561,10 +560,10 @@ EXTERN_DLL_EXPORT void coreclr_execute_action(int pos, Node* node, char *result)
 	((ExecuteActionMethodFp*)assemblyDatas[pos].ExecuteActionFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, result);
 }
 
-EXTERN_DLL_EXPORT void coreclr_get_dynamic_nodes(int pos, Node* node, char **result)
+EXTERN_DLL_EXPORT void coreclr_get_dynamic_nodes(int pos, Node* node, char **result, int isManaged)
 {
 	InitNodeDatas();
-	*result = ((GetDynamicElementsMethodFp*)assemblyDatas[pos].GetDynamicElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property);
+	*result = ((GetDynamicElementsMethodFp*)assemblyDatas[pos].GetDynamicElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, isManaged, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
 }
 //*************** End exported wrappers to  node workflow functions ****************/
 

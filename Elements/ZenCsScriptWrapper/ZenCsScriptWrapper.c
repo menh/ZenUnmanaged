@@ -30,7 +30,7 @@ EXTERN_DLL_EXPORT int onNodePreInit(Node* node)
 	coreclr_init_app_domain();
 	node->implementationContext = malloc(sizeof(int));
 	*((int*)(node->implementationContext)) = coreclr_create_delegates("ZenCsScript", 1);
-	coreclr_init_managed_nodes(*((int*)(node->implementationContext)), node);
+	coreclr_init_managed_nodes(*((int*)(node->implementationContext)), node, 1);
 	return 0;
 }
 
@@ -54,7 +54,7 @@ EXTERN_DLL_EXPORT int executeAction(Node *node)
 EXTERN_DLL_EXPORT Node** getNodesToExecute(Node* node, int* nodesToExecuteCnt)
 {
 	char* result = NULL;
-	coreclr_get_dynamic_nodes(*((int*)(node->implementationContext)), node, &result);
+	coreclr_get_dynamic_nodes(*((int*)(node->implementationContext)), node, &result, 1);
 
 	int numNodesToExecute = 0;
 	char **nodesToExecute = NULL;

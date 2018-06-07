@@ -253,7 +253,7 @@ EXTERN_DLL_EXPORT void common_pull_event_from_buffer(Node* node)
 				break;
 			
 			case RESULT_TYPE_CHAR_ARRAY:
-				node->lastResult = (char*)popqueue(&node->bufferedEvents);
+				*node->lastResult = (char*)popqueue(&node->bufferedEvents);
 				break;
 		}
 		pthread_cond_signal(&_pause_node_conditions[node->pauseNodeConditionId]);
@@ -292,7 +292,10 @@ EXTERN_DLL_EXPORT void common_push_event_to_buffer(void *context)
 				break;
 			
 			case RESULT_TYPE_CHAR_ARRAY:
-				eventParams->node->lastResult = *(char*)eventParams->data;
+				if (eventParams->node->lastResult == NULL)
+					eventParams->node->lastResult = (char**)malloc(sizeof(char*));
+
+				*eventParams->node->lastResult = (char*)eventParams->data;
 				break;
 		}
 		pthread_cond_signal(&_pause_node_conditions[eventParams->node->pauseNodeConditionId]);
@@ -306,7 +309,7 @@ EXTERN_DLL_EXPORT void common_push_event_to_buffer(void *context)
 				break;
 
 			case RESULT_TYPE_CHAR_ARRAY:
-				push(&eventParams->node->bufferedEvents, *(char*)eventParams->data);
+				push(&eventParams->node->bufferedEvents, (char*)eventParams->data);
 				break;
 		}
 	}

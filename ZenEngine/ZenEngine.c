@@ -246,7 +246,7 @@ void StartNodeCore(Node* node, int* isNodeFirstFire)
 	// Don't fire finish event for eventable nodes without paused thread (on first loop time).
 	// In this step just pause the thread, and wait for event to arrive.
 	// OnNodeFinish starts child nodes
-	if (node->isActionable || !isNodeFirstFire)
+	if (node->isActionable || !(*isNodeFirstFire))
 		OnNodeFinish(node);
 	else
 		*(isNodeFirstFire) = 0;
@@ -697,6 +697,7 @@ void FillNodeList()
 		strncpy(node->implementationId, cJSON_GetObjectItem(subitem, "IMPLEMENTATION")->valuestring, strlen(cJSON_GetObjectItem(subitem, "IMPLEMENTATION")->valuestring) + 1);
 		strncpy(node->nodeOperator, cJSON_GetObjectItem(subitem, "OPERATOR")->valuestring, strlen(cJSON_GetObjectItem(subitem, "OPERATOR")->valuestring) + 1);
 
+		node->lastResult = NULL;
 		node->isInitialized = 0;
 		node->isStarted = 0;
 		node->isConditionMet = 1;
