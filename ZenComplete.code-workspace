@@ -1,0 +1,35 @@
+{
+	"folders": [
+		{
+			"path": "Elements\\ZenStart"
+		},
+		{
+			"path": "libs\\ZenCoreCLR"
+		},
+		{
+			"path": "Elements\\ZenCsScriptWrapper"
+		},
+		{
+			"path": "ZenEngine"
+		},
+		{
+			"path": "ZenCommon"
+		},
+		{
+			"path": "Elements\\ZenLicenceCheckerWrapper"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"istream": "cpp",
+			"memory": "cpp",
+			"tuple": "cpp",
+			"type_traits": "cpp",
+			"utility": "cpp",
+			"xlocnum": "cpp",
+			"xstring": "c",
+			"system_error": "cpp",
+			"xlocale": "c"
+		}
+	}
+}
