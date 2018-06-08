@@ -440,7 +440,7 @@ unsigned long CreateAppDomain(LPCWSTR domainName)
 * @param canContainDynamicNodes		if true, it creates also function that node executers use
 * @return							void
 */
-EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDynamicElements)
+EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, contains_dynamic_elements can_contain_dyn_elements)
 {
 	_assembliesCnt++;
 
@@ -469,7 +469,7 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDyn
 	hr = _runtimeHost->CreateDelegate(_domainId, assemblyNameWide, classNameWide, L"ExecuteAction", (INT_PTR*)&assemblyDatas[_assembliesCnt].ExecuteActionFp);
 	hr = _runtimeHost->CreateDelegate(_domainId, assemblyNameWide, classNameWide, L"OnElementInit", (INT_PTR*)&assemblyDatas[_assembliesCnt].OnElementInitFp);
 
-	if (canContainDynamicElements)
+	if (can_contain_dyn_elements == CONTAIN_DYN_ELEMENTS)
 	{
 		hr = _runtimeHost->CreateDelegate(_domainId, assemblyNameWide, classNameWide, L"GetDynamicElements", (INT_PTR*)&assemblyDatas[_assembliesCnt].GetDynamicElementsFp);
 		if (FAILED(hr))
@@ -544,10 +544,10 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDyn
 //************************** End loading CoreClr ******************************/
 
 //*************** Start exported wrappers to  element workflow functions **************/
-EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node, int isManaged)
+EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node, is_element_managed is_managed)
 {
 	InitNodeDatas();
-	((InitManagedElementsMethodFp*)assemblyDatas[pos].InitManagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, isManaged, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
+	((InitManagedElementsMethodFp*)assemblyDatas[pos].InitManagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, is_managed, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
 }
 
 EXTERN_DLL_EXPORT void coreclr_on_node_init(int pos, Node* node, char *result)
@@ -560,10 +560,10 @@ EXTERN_DLL_EXPORT void coreclr_execute_action(int pos, Node* node, char *result)
 	((ExecuteActionMethodFp*)assemblyDatas[pos].ExecuteActionFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, result);
 }
 
-EXTERN_DLL_EXPORT void coreclr_get_dynamic_nodes(int pos, Node* node, char **result, int isManaged)
+EXTERN_DLL_EXPORT void coreclr_get_dynamic_nodes(int pos, Node* node, char **result, is_element_managed is_managed)
 {
 	InitNodeDatas();
-	*result = ((GetDynamicElementsMethodFp*)assemblyDatas[pos].GetDynamicElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, isManaged, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
+	*result = ((GetDynamicElementsMethodFp*)assemblyDatas[pos].GetDynamicElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, is_managed, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
 }
 //*************** End exported wrappers to  node workflow functions ****************/
 

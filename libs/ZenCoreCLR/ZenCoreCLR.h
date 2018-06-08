@@ -21,13 +21,33 @@
 
 #pragma once
 
+// Describes where managed Elements results are handled
+typedef enum
+{
+    // result is handled on native side. Those are Eventable Elements
+    // that are storing managed events into unmanaged buffer, or
+    // Actionable Elements that are assigning results on native side
+	NOT_MANAGED,
+    // all other Actionable managed Elements
+	IS_MANAGED
+} is_element_managed;
+
+// Describes if Element can contain virtually connected Elements
+// Those are typically scripts and condition evaluators,
+// where Elements are executed from script instead of workflow connections
+typedef enum
+{
+	CONTAIN_DYN_ELEMENTS,
+	DOES_NOT_CONTAIN_DYN_ELEMENTS
+} contains_dynamic_elements;
+
 void InitNodeDatas();
 EXTERN_DLL_EXPORT int coreclr_init_app_domain();
-EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, int canContainDynamicNodes);
-EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node, int isManaged);
+EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, contains_dynamic_elements can_contain_dyn_elements);
+EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node, is_element_managed is_managed);
 EXTERN_DLL_EXPORT void coreclr_execute_action(int pos, Node* node, char* result);
 EXTERN_DLL_EXPORT void coreclr_on_node_init(int pos, Node* node, char* result);
-EXTERN_DLL_EXPORT void coreclr_get_dynamic_nodes(int pos, Node* node, char **result, int isManaged);
+EXTERN_DLL_EXPORT void coreclr_get_dynamic_nodes(int pos, Node* node, char **result, is_element_managed is_managed);
 #if defined(__cplusplus) && defined (_WIN32)
 DWORD CreateAppDomain(LPCWSTR domainName);
 #endif
