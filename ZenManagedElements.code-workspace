@@ -1,0 +1,46 @@
+{
+	"folders": [
+		{
+			"path": "ZenEngine"
+		},
+		{
+			"path": "ZenCommon"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenAssetReceiver"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenAssetTransmitter"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenCsScript"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenDebug"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenElementActionCaller"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenElementsExecuter"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenExcelReader"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenHttpRequest"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenLicenceChecker"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenMail"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenSqlServer"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenWebServer"
+		}
+	]
+}
