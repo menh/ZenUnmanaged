@@ -49,7 +49,7 @@
             }
         },
         {
-            "command": "\"mkdir -Force bin/Debug;cp ${env:ZENO_ROOT}/libs/pthread//lib/1.0.0.0/pthreadGC2.dll bin/Debug;cp ${env:ZENO_ROOT}/libs/paho.mqtt/lib/1.0.0.0/paho-mqtt3as.dll bin/Debug;cp ${env:ZENO_ROOT}/libs/ZenCommon/lib_msvc/1.0.0.0/ZenCommon.dll bin/Debug\"",
+            "command": "\"mkdir -Force bin/Debug;cp ${env:ZENO_ROOT}/libs/pthread//lib/1.0.0.0/pthreadGC2.dll bin/Debug;cp ${env:ZENO_ROOT}/libs/ZenCoreCLR/lib/1.0.0.0/ZenCoreCLR.dll bin/Debug;cp ${env:ZENO_ROOT}/libs/paho.mqtt/lib/1.0.0.0/paho-mqtt3as.dll bin/Debug;cp ${env:ZENO_ROOT}/libs/ZenCommon/lib_msvc/1.0.0.0/ZenCommon.dll bin/Debug\"",
             "label": "copy-libs-win-x64",
             "type": "shell",
            
