@@ -76,7 +76,7 @@ struct  nodeData nodeDatas[1000];
 struct assemblyData
 {
 	char  id[50];
-	void* InitManagedElementsFp;
+	void* InitUnmanagedElementsFp;
 	void* ExecuteActionFp;
 	void* OnElementInitFp;
 	void* GetDynamicElementsFp;
@@ -119,7 +119,7 @@ typedef void(*ExecuteElementCallback)(void*);
 typedef int(*ptrOnNodeEvent)(Node*, char*);
 
 // Node workflow functions
-typedef void  (InitManagedElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, int isManaged, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp, AddEventToBufferCallback addEventToBufferFp);
+typedef void  (InitUnmanagedElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, int isManaged, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp, AddEventToBufferCallback addEventToBufferFp);
 typedef void (OnElementInitMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char* result);
 typedef void (ExecuteActionMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, char* result);
 typedef char* (GetDynamicElementsMethodFp)(char* currentNodeId, nodeData nodes[], int nodesCnt, int isManaged, char*  projectRoot, char* projectId, GetElementPropertyCallback getElementPropertyFp, GetElementResultInfoCallback getElementResultInfoFp, GetElementResultCallback getElementResultFp, ExecuteElementCallback executeElementFp, SetElementPropertyCallback setElementPropertyFp, AddEventToBufferCallback addEventToBufferFp);
@@ -459,10 +459,10 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, contains_dynamic_
 	wchar_t classNameWide[MAX_PATH];
 	mbstowcs(classNameWide, className, strlen(className) + 1);
 
-	hr = _runtimeHost->CreateDelegate(_domainId, assemblyNameWide, classNameWide, L"InitManagedElements", (INT_PTR*)&assemblyDatas[_assembliesCnt].InitManagedElementsFp);
+	hr = _runtimeHost->CreateDelegate(_domainId, assemblyNameWide, classNameWide, L"InitUnmanagedElements", (INT_PTR*)&assemblyDatas[_assembliesCnt].InitUnmanagedElementsFp);
 	if (FAILED(hr))
 	{
-		printf("ERROR - Failed to create InitManagedElements.\nError code:%x\n", hr);
+		printf("ERROR - Failed to create InitUnmanagedElements.\nError code:%x\n", hr);
 		exit(1);
 	}
 
@@ -484,8 +484,8 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, contains_dynamic_
 		_domainId,
 		fileName,
 		className,
-		"InitManagedElements",
-		reinterpret_cast<void **>(&assemblyDatas[_assembliesCnt].InitManagedElementsFp)
+		"InitUnmanagedElements",
+		reinterpret_cast<void **>(&assemblyDatas[_assembliesCnt].InitUnmanagedElementsFp)
 	);
 
 	if (ret < 0)
@@ -547,7 +547,7 @@ EXTERN_DLL_EXPORT int coreclr_create_delegates(char* fileName, contains_dynamic_
 EXTERN_DLL_EXPORT void coreclr_init_managed_nodes(int pos, Node* node, is_element_managed is_managed)
 {
 	InitNodeDatas();
-	((InitManagedElementsMethodFp*)assemblyDatas[pos].InitManagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, is_managed, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
+	((InitUnmanagedElementsMethodFp*)assemblyDatas[pos].InitUnmanagedElementsFp)(node->id, nodeDatas, COMMON_NODE_LIST_LENGTH, is_managed, COMMON_PROJECT_ROOT, COMMON_PROJECT_ID, managed_callback_get_node_property, managed_callback_get_node_result_info, managed_callback_get_node_result, managed_callback_execute_node, managed_callback_set_node_property, managed_callback_add_event_to_buffer);
 }
 
 EXTERN_DLL_EXPORT void coreclr_on_node_init(int pos, Node* node, char *result)
