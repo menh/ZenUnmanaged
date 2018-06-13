@@ -420,6 +420,9 @@ EXTERN_DLL_EXPORT void ConnectMqtt(EngineConfiguration engine_configuration)
 	char willTopicName[50];
 	int rc = 0;
 
+	if (strcmp(engine_configuration.mqttHost, "") == 0)
+		return;
+
 	// Set topic for non default instances
 	if (strcmp(engine_configuration.workstationId, "") == 0)
 		sprintf(_topic_prefix, "%s%s", "/", engine_configuration.projectId);
