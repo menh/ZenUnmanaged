@@ -30,8 +30,8 @@ EXTERN_DLL_EXPORT int onNodePreInit(Node* node)
 {
 	coreclr_init_app_domain();
 	node->implementationContext = malloc(sizeof(int));
-	*((int*)(node->implementationContext)) = coreclr_create_delegates("ZenDebug", 0);
-	coreclr_init_managed_nodes(*((int*)(node->implementationContext)), node);
+	*((int*)(node->implementationContext)) = coreclr_create_delegates("ZenDebug", DOES_NOT_CONTAIN_DYN_ELEMENTS);
+	coreclr_init_managed_nodes(*((int*)(node->implementationContext)), node, IS_MANAGED);
 	return 0;
 }
 

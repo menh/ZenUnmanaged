@@ -30,8 +30,8 @@ EXTERN_DLL_EXPORT int onNodePreInit(Node* node)
 {
 	coreclr_init_app_domain();
 	node->implementationContext = malloc(sizeof(int));
-	*((int*)(node->implementationContext)) = coreclr_create_delegates("ZenElementsExecuter", 1);
-	coreclr_init_managed_nodes(*((int*)(node->implementationContext)), node);
+	*((int*)(node->implementationContext)) = coreclr_create_delegates("ZenElementsExecuter", CONTAIN_DYN_ELEMENTS);
+	coreclr_init_managed_nodes(*((int*)(node->implementationContext)), node, IS_MANAGED);
 	return 0;
 }
 
@@ -58,7 +58,7 @@ EXTERN_DLL_EXPORT int executeAction(Node *node)
 EXTERN_DLL_EXPORT Node** getNodesToExecute(Node* node, int* nodesToExecuteCnt)
 {
 	char* result = NULL;
-	coreclr_get_dynamic_nodes(*((int*)(node->implementationContext)), node, &result);
+	coreclr_get_dynamic_nodes(*((int*)(node->implementationContext)), node, &result, IS_MANAGED);
 
 	int numNodesToExecute = 0;
 	char **nodesToExecute = NULL;
