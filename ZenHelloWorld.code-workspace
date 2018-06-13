@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"name": "Native - ZenEngine",
+			"path": "ZenEngine"
+		},
+		{
+			"name": "Native - ZenCommon",
+			"path": "ZenCommon"
+		},
+		{
+			"name": "Managed  - NetCore",
+			"path": "..\\ZenDotNet\\ZenCommon\\NetCore"
+		},
+		{
+			"name": "Native Lib - ZenCoreCLR",
+			"path": "libs\\ZenCoreCLR"
+		},
+		{
+			"name": "Native Element - ZenCounter",
+			"path": "Elements\\ZenCounter"
+		},
+		{
+			"name": "Native Element - ZenDebugWrapper",
+			"path": "Elements\\ZenDebugWrapper"
+		},
+		{
+			"name": "Native Element - ZenSleep",
+			"path": "Elements\\ZenSleep"
+		},
+		{
+			"name": "Native Element - ZenStart",
+			"path": "Elements\\ZenStart"
+		},
+		{
+			"name": "Managed Element - ZenDebug",
+			"path": "..\\ZenDotNet\\Elements\\NetCore\\ZenDebug"
+		}
+	],
+	"settings": {}
+}
