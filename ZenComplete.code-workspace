@@ -1,22 +1,43 @@
 {
 	"folders": [
-		{
-			"path": "Elements\\ZenStart"
-		},
-		{
-			"path": "libs\\ZenCoreCLR"
-		},
-		{
-			"path": "Elements\\ZenCsScriptWrapper"
-		},
-		{
+		{   "name": "System - ZenEngine",
 			"path": "ZenEngine"
 		},
 		{
+			"name": "System - ZenCommon",
 			"path": "ZenCommon"
 		},
 		{
+			"name": "Lib - ZenCoreCLR",
+			"path": "libs\\ZenCoreCLR"
+		},
+		{
+			"name": "Element - ZenCsScriptWrapper",
+			"path": "Elements\\ZenCsScriptWrapper"
+		},
+		{
+			"name": "Element - ZenCounter",
+			"path": "Elements\\ZenCounter"
+		},
+		{
+			"name": "Element - ZenDebugWrapper",
+			"path": "Elements\\ZenDebugWrapper"
+		},
+		{
+			"name": "Element - ZenElementsExecuterWrapper",
+			"path": "Elements\\ZenElementsExecuterWrapper"
+		},
+		{
+			"name": "Element - ZenLicenceCheckerWrapper",
 			"path": "Elements\\ZenLicenceCheckerWrapper"
+		},
+		{
+			"name": "Element - ZenSleep",
+			"path": "Elements\\ZenSleep"
+		},
+		{
+			"name": "Element - ZenStart",
+			"path": "Elements\\ZenStart"
 		}
 	],
 	"settings": {
