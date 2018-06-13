@@ -41,6 +41,9 @@
 		},
 		{
 			"path": "../ZenDotNet/Elements/NetCore/ZenWebServer"
+		},
+		{
+			"path": "../ZenDotNet/ZenCommon/NetCore"
 		}
 	]
 }

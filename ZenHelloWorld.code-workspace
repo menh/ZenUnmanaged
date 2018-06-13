@@ -9,7 +9,7 @@
 			"path": "ZenCommon"
 		},
 		{
-			"name": "Managed  - NetCore",
+			"name": "Managed  - ZenCommon",
 			"path": "..\\ZenDotNet\\ZenCommon\\NetCore"
 		},
 		{
@@ -21,16 +21,16 @@
 			"path": "Elements\\ZenCounter"
 		},
 		{
-			"name": "Native Element - ZenDebugWrapper",
-			"path": "Elements\\ZenDebugWrapper"
-		},
-		{
 			"name": "Native Element - ZenSleep",
 			"path": "Elements\\ZenSleep"
 		},
 		{
 			"name": "Native Element - ZenStart",
 			"path": "Elements\\ZenStart"
+		},
+		{
+			"name": "Native Element - ZenDebugWrapper",
+			"path": "Elements\\ZenDebugWrapper"
 		},
 		{
 			"name": "Managed Element - ZenDebug",
