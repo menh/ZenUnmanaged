@@ -28,7 +28,7 @@ EXTERN_DLL_EXPORT int onNodePreInit(Node* node)
 {
 	node->lastResult = malloc(sizeof(int*));
 	*node->lastResult = malloc(sizeof(int));
-	*((int*)node->lastResult[0]) = atoi(common_get_node_arg(node, "INITIAL_VALUE"));
+	*((int*)*node->lastResult) = atoi(common_get_node_arg(node, "INITIAL_VALUE"));
 	node->lastResultType = RESULT_TYPE_INT;
 	return 0;
 }
