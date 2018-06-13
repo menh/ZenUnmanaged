@@ -2,8 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-debug-win64-ZenCoreCLR",
-            "command": "build/build_win64.bat",
+            "label": "build-debug",
+            "windows": {
+                "command": "build/build_win64.bat;cp bin\\Debug\\ZenCoreCLR.lib  ${env:ZENO_ROOT}\\libs\\ZenCoreCLR\\lib\\1.0.0.0;cp bin\\Debug\\ZenCoreCLR.dll  ${env:ZENO_ROOT}\\libs\\ZenCoreCLR\\lib\\1.0.0.0",
+            },
             "type": "shell",
             "problemMatcher": [],
             "dependsOn": [
@@ -15,14 +17,10 @@
             }
         },
         {
-            "command": "\"mkdir -Force bin\\Debug\"",
             "label": "create-bin-dir",
-            "type": "shell",
-            "problemMatcher": []
-        },
-        {
-            "command": "\"cp bin\\Debug\\ZenCoreCLR.lib  ${env:ZENO_ROOT}\\libs\\ZenCoreCLR\\lib\\1.0.0.0;cp bin\\Debug\\ZenCoreCLR.dll  ${env:ZENO_ROOT}\\libs\\ZenCoreCLR\\lib\\1.0.0.0 \"",
-            "label": "publish-lib-debug",
+            "windows": {
+            "command": "\"mkdir -Force bin\\Debug\"",
+            },
             "type": "shell",
             "problemMatcher": []
         }

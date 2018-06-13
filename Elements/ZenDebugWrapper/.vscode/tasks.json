@@ -2,8 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-debug-win64",
-            "command": "${workspaceRoot}/build/build_win64.bat",
+            "label": "build-debug",
+            "windows": {
+                "command": "build/build_win64.bat; cp bin/Debug/ZenDebugWrapper.dll  ${env:ZENO_PROJ}/Implementations/"
+            },
             "type": "shell",
             "problemMatcher": [],
             "dependsOn": [
@@ -15,8 +17,8 @@
             }
         },
         {
-            "command": "\"mkdir -Force bin\\Debug\"",
             "label": "create-bin-dir",
+            "command": "\"mkdir -Force bin\\Debug\"",
             "type": "shell",
             "problemMatcher": []
         }
