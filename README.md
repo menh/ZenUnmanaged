@@ -53,7 +53,7 @@ You can get more in-depth here:
 * [Youtube Presentation](https://www.youtube.com/watch?v=MEHJErxozqE)
 
 # Architecture
-![alt text](ReadmeFiles/tech-arch.png "Tech arch")
+![alt text](ReadmeFiles/tech-arch.jpg "Tech arch")
 ## Visual Development Tool
 Browser based IDE for developing and debugging Visual Scripts. Scripts are manually or remotely transferred to ZenEngine (Computing Engine).
 ## ZenEngine
