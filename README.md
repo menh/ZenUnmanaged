@@ -83,6 +83,8 @@ Knowing what script does is not crucial for setting up environment and start deb
 * “Sleep” Element stops loop for 1 second and after that steps are repeated
 
 <br/><br/>
+“Start”, “Counter” and “Sleep” Elements in this loop are native, and “Debug” is managed.
+<br/><br/>
 Special tags exists inside Zenodys platform. One of them is “result” tag that allow sharing results between Elements. Here is example of “Debug” Element text property:<br/><br/>
 ![alt text](ReadmeFiles/DebugText.PNG "Debug Text")
 
@@ -128,7 +130,8 @@ unsafe public static void InitUnmanagedElements(
         addEventToBuffer);
 }
 
-// It can be copy/pasted to each new Actionable type Element. But instead of PrintText, call your function
+// It can be copy/pasted to each new Actionable type Element.
+// But instead of PrintText, call your function
 unsafe public static void ExecuteAction(
     string currentElementId,
     void** elements,
@@ -256,6 +259,7 @@ Coming Soon
 
 Code is distributed under GPL3.0 Licence (see LICENCE.md)
 Elements and/or Computing Engine includes following libraries :
+- Nethereum, https://github.com/Nethereum/Nethereum
 - Base64 encode/decode, https://github.com/littlstar/b64.c
 - cJSON, https://github.com/DaveGamble/cJSON
 - dirent, https://github.com/tronkko/dirent
