@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "Elements\\ZenStart"
+		},
+		{
+			"path": "Elements\\ZenWebServerWrapper"
 		}
 	]
 }

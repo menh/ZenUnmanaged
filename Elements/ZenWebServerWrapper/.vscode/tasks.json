@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug",
+            "windows": {
+                "command": "build/build_win64.bat; cp bin/Debug/ZenWebServerWrapper.dll  ${env:ZENO_PROJ}/Implementations/"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "dependsOn": [
+                "create-bin-dir"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "create-bin-dir",
+            "command": "\"mkdir -Force bin\\Debug\"",
+            "type": "shell",
+            "problemMatcher": []
+        }
+    ]
+}
