@@ -1,7 +1,9 @@
-# ZenUnmanaged
+# Zenodys Native Computing Engine
 
-Zenodys is Visual Development Tool and Computing Engine used in IoT and Industry 4.0 fields.<br/>
-This repository contains native C Computing Engine implementation and Elements.
+Zenodys is development tool, sandboxed execution environment and decentralized marketplace of digital assets. The marketplace is powered by Zenodys Visual IoT platform.<br/><br/>
+Zenodys Visual IoT platform contains browser based Visual Development Tool for visually connecting microservices (Elements) and orchestration tool (Computing Engine) which executes Elements and visual scripts on edge devices.<br/><br/>
+This repository contains native C Computing Engine implementation and Elements.<br/><br/>
+Managed .NET Framework of Computing Engine implementation is [here](https://github.com/Zenodys/ZenDotNet).
  
 # Table of contents
 
