@@ -13,6 +13,7 @@ Managed .NET Framework of Computing Engine implementation is [here](https://gith
 - [Getting Help](#getting-help)
 - [Contributions](#contributions)
 - [Architecture](#architecture)
+  - [Digital Assets Marketplace](#digital-assets-marketplace)
   - [Visual Development Tool](#visual-development-tool)
   - [ZenEngine](#zenengine)
   - [ZenCommon](#zencommon)
@@ -56,6 +57,8 @@ You can get more in-depth here:
 
 # Architecture
 ![alt text](ReadmeFiles/tech-arch.jpg "Tech arch")
+## Digital Assets Marketplace
+Decentralized marketplace to trade digital assets.
 ## Visual Development Tool
 Browser based IDE for developing and debugging Visual Scripts. Scripts are manually or remotely transferred to ZenEngine (Computing Engine).
 ## ZenEngine
