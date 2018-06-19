@@ -44,6 +44,9 @@
 		},
 		{
 			"path": "../ZenDotNet/ZenCommon/NetCore"
+		},
+		{
+			"path": "../ZenDotNet/Elements/NetCore/ZenMySql"
 		}
 	]
 }
