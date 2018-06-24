@@ -18,6 +18,12 @@ Managed .NET Framework of Computing Engine implementation is [here](https://gith
   - [ZenEngine](#zenengine)
   - [ZenCommon](#zencommon)
   - [Bindings](#bindings)
+- [Workflow Features](#workflow-features)
+  - [Parallel Loop Executions](#parallel-loop-executions)
+  - [Smart Tags](#smart-tags-system)
+  - [Event Buffering](#event-buffering)
+  - [Script Elements](#script-elements)
+  - [Adjusting Workflow Execution at Runtime](#adjusting-workflow-execution-at-runtime)
 - [Build Instructions](#build-instructions)
   - [Overview](#overview)
   - [Required skills](#required-skills)
@@ -72,6 +78,65 @@ Bindings to different programming languages in which Elements for native Computi
 ## .NET Core Elements
 [Managed Elements](https://github.com/Zenodys/ZenDotNet/tree/develop/Elements) are similar to Native but developed on .NET Core platform
 
+# Workflow Features
+## Parallel Loop Executions
+In general, each loop has an entry point (Start Element) where execution begins. You can create as many independent loops as you want that runs parallely inside the same project.<br/><br/>
+
+![alt text](ReadmeFiles/Wf_Parallel_Loops.PNG "Parallel Loops")
+
+## Smart Tags
+Smart Tags are "HTML like" tags enclosing Element id's and allowing sharing data between Elements. Smart tags are replaced with actual Element values at the runtime.<br/>
+For example, consider following performance test where we want to measure and display response time of ZWAVE device:<br/><br/>
+![alt text](ReadmeFiles/Wf_Write_Log_1.PNG "Performance Test")
+
+If "WriteLog" contains following text in "Text" property:
+![alt text](ReadmeFiles/Wf_Write_Log_2.PNG "Performance Test")
+
+output would be similar to this:
+```sh
+Execution time:420 ms
+Measured power:100 W
+```
+
+Supported smart tags are:
+* result<br/>
+for sharing results between Elements<br/><br/>
+* error_code<br/>
+for sharing error codes between Elements<br/><br/>
+* error_message<br/>
+for sharing error messages between Elements<br/><br/>
+* status<br/>
+for sharing current statuses between Elements (Stopped, Running, Paused...)<br/><br/>
+* started<br/>
+indicates if Element has been already executed<br/><br/>
+* ms_elapsed<br/>
+measured Element execution time in ms<br/><br/>
+* last_executed_date<br/>
+information when Element was last executed<br/><br/>
+
+## Event Buffering
+Sometimes machines or software sources have peaks where large amount of events are generated. If event processing takes some time and event frequency is high then events can eventually get lost. That's why Zenodys platform supports Event Buffering where events are stored inside Elements and processed sequentially.<br/><br/>
+Consider following example:<br/><br/>
+![alt text](ReadmeFiles/Wf_Event_Buffering.PNG "Event buffering")
+<br/><br/>
+"MQTTSubs" is MQTT subscriber that periodically receives large amount of events. Then some regression algorithms are applied to those events which are then stored to SQL SERVER database. Last step is to save event information into the blockchain.<br/>
+Let's say that regression algorithm and database storing require synchronous processing. In such case we can set "MQTTSubs" Element property to pull new event from buffer after "Store" Element ends.
+
+## Script Elements
+Script Elements allows additional fine tunings.<br/>
+In cases when additional scripting is needed, whether for personalized business logic or for performance improvements, scripts in various programming languages (currently C#, Javascript, Python) can be entered right into the Script Element.<br/><br/>
+Built in functions enable retrieving results from other Elements, executing other Element, setting Element properties and much more with just one line of code.<br/><br/>
+![alt text](ReadmeFiles/Wf_Script.PNG "Counter loop")<br/><br/>
+
+## Adjusting Workflow Execution at Runtime
+Real life projects are complex with many workflow paths. In many cases paths, on which workflow shall proceed are evaluated and decided in runtime. Such complexity leads to interlaced and hard to maintain connections between Elements. Zenodys solves with easy to use Element that executes Elements based on current conditions. <br/><br/>
+Following example subscribes on MQTT events. After the event receives value, it gets evaluated and workflow proceeds on "SetCharge", "SetAutomatic" or "SetDischarge" Elements.<br/><br/>
+![alt text](ReadmeFiles/Wf_Element_Executer_1.PNG "Counter loop")
+<br/><br/>
+
+Elements are executed based on runtime evaluation of complex or simple conditions. Those conditions are entered into property of the Element that is able to execute other Elements:<br/><br/>
+![alt text](ReadmeFiles/Wf_Element_Executer_2.PNG "Counter loop")
+<br/><br/>
 
 # Build Instructions
 ## Overview
@@ -206,9 +271,9 @@ Prerequisites:
 
 1. Install [git](https://git-scm.com/downloads)
 2. Install [Visual Studio Code](https://code.visualstudio.com/)
-After installation, Visual Studio Code will automatically detect git path. In case that path is not detected and git is installed, set path VS Code manually. Install two VS Code extensions
-   - Microsoft C/C++ Extension for VS Code
-   - "C# for Visual Studio Code (powered by OmniSharp)
+After installation, Visual Studio Code will automatically detect git path. In case that path is not detected and git is installed, set path VS Code manually. Install following extensions
+   - [C/C++ for Visual Studio Code](vscode:extension/ms-vscode.cpptools)
+   - [C# for Visual Studio Code](vscode:extension/ms-vscode.csharp)
 
 
 
@@ -231,8 +296,8 @@ git clone --recurse-submodules https://github.com/Zenodys/ZenUnmanaged.git
 9. Go to ZenEngine root dir and rename “project_test” directory to “project”. This is directory that contains pre-made Visual Script. You will probably need to change path of your .NET Core SDK installation directory. To do this, find Settings.ini file and change the “path” value of “NetCore” setting.
  
 10. Create two environment variables:
-    - ZENO_ROOT pointing to root folder (eg C:\Zenodys)
-    - ZENO_PROJ pointing to project folder (eg C:\Zenodys\ZenEngine\project\9024bb0d-137e-4a99-2167-7b5875404b01)<br/><br/>
+    - ZENO_ROOT pointing to unmanaged ZenEngine root folder (eg C:\Zenodys\ZenUnmanaged)
+    - ZENO_PROJ pointing to project folder (eg C:\Zenodys\ZenUnmanaged\ZenEngine\project\9024bb0d-137e-4a99-2167-7b5875404b01)<br/><br/>
 Restart computer.
 
 11. Now you must build projects.<br/>Open “ZenHelloWorld.code-workspace” in VS Code and press Ctrl+Shift+B to open Build task. Build projects in following order:
