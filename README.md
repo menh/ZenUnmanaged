@@ -1,7 +1,11 @@
 # Zenodys Native Computing Engine
 
-Zenodys is development tool, sandboxed execution environment and decentralized marketplace of digital assets. The marketplace is powered by Zenodys Visual IoT platform.<br/><br/>
-Zenodys Visual IoT platform contains browser based Visual Development Tool for visually connecting microservices (Elements) and orchestration tool (Computing Engine) which executes Elements and visual scripts on edge devices.<br/><br/>
+Zenodys is Visual Development Tool, sandboxed execution environment and decentralized marketplace of digital assets. These aspects might seems unrelated at first sight, but properly combined together they create a marketplace where everyone, regardless of programming skills, are able to trade their digital assets.<br/><br/>
+For example, non developers can easily create applications with just drag'n'dropping visual icons and setting their properties inside Visual Development Tool. Applications can gather data from their devices and other sources and are executed off-chain inside sandboxed execution environment. Gathered digital assets are then published on distributed Digital Assets Marketplace.<br/>
+Applications on consumer side are similar to ones on supply side. But instead of publishing digital assets to marketplace, they deliver purchased digital assets from marketplace.<br/><br/>
+Visual Development Tool is browser based IDE for visually connecting microservices (Elements). Created visual scripts are then executed by orchestration tool (Computing Engine) on edge devices in sandboxed execution environment.<br/><br/>
+Developer's contributions are creating algorithms, applications and UI's that are later used by non developers in form of Visual Elements.<br/>
+
 This repository contains native C Computing Engine implementation and Elements.<br/><br/>
 Managed .NET Framework of Computing Engine implementation is [here](https://github.com/Zenodys/ZenDotNet).
  
@@ -20,7 +24,7 @@ Managed .NET Framework of Computing Engine implementation is [here](https://gith
   - [Bindings](#bindings)
 - [Workflow Features](#workflow-features)
   - [Parallel Loop Executions](#parallel-loop-executions)
-  - [Smart Tags](#smart-tags-system)
+  - [Smart Tags](#smart-tags)
   - [Event Buffering](#event-buffering)
   - [Script Elements](#script-elements)
   - [Adjusting Workflow Execution at Runtime](#adjusting-workflow-execution-at-runtime)
